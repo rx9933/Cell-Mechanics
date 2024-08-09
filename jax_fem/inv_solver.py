@@ -729,32 +729,23 @@ def ad_wrapper(problem, linear=False, use_petsc=False, petsc_options=None, use_p
         PETSc solver options specified by user for the adjoint problem             
     """
     init_pos = np.asarray(onp.loadtxt("../../../demos/inverse-model/19kelem/cell_vertices_initial.txt"))
-    disp = np.asarray(onp.loadtxt("../../../demos/inverse-model/19kelem/cell_vertices_final.txt")) - init_pos
-    #print("INIT", np.array(init_pos))
-    
+    disp = np.asarray(onp.loadtxt("../../../demos/inverse-model/19kelem/cell_vertices_final.txt")) - init_po
     tol = 10**-9
     @jax.jit
     def xcell_displacement(point, load_factor=1):
         
         ind = np.where(np.absolute(init_pos-point) < tol, 1, 0)
         i = np.nonzero(ind,size=1)#(ind==np.array([1,1,1]))
-       # print("DISP",onp.array(disp[i,:][0][0][0])*load_factor)
-        #print("xcell",disp[i,:][0][0][0]*load_factor)
-        # print("i",ind)
-        # print("xcell",disp[i,:][0][0])
-        # print("LF", np.array(load_factor))
         return np.array(disp[i,:][0][0][0])*load_factor
     @jax.jit
     def ycell_displacement(point, load_factor=1):
         ind = np.where(np.absolute(init_pos-point) < tol, 1, 0)
         i = np.nonzero(ind,size=1)#(ind==np.array([1,1,1]))
-        #return disp[i,:][0][0][1]*load_factor
         return np.array(disp[i,:][0][0][1])*load_factor
     @jax.jit
     def zcell_displacement(point, load_factor=1):
         ind = np.where(np.absolute(init_pos-point) < tol, 1, 0)
         i = np.nonzero(ind,size=1)#(ind==np.array([1,1,1]))
-        #return disp[i,:][0][0][2]*load_factor
         return np.array(disp[i,:][0][0][2])*load_factor
     
     def apply_load_steps(problem, num_steps = 2):
@@ -762,27 +753,16 @@ def ad_wrapper(problem, linear=False, use_petsc=False, petsc_options=None, use_p
         sol = None
         for step in np.arange(1/num_steps, 1 + 1/num_steps, 1 / num_steps ):
             logger.info(f"STEP {step}")
-            print("STEP", step)
             load_factor = step
-            # problem.dirichlet_bc_info[0][2][3:] = [
-            #     lambda point, load_factor=load_factor: xcell_displacement(point, load_factor),
-            #     lambda point, load_factor=load_factor: ycell_displacement(point, load_factor),
-            #     lambda point, load_factor=load_factor: zcell_displacement(point, load_factor)
-            # ]
             problem.dirichlet_bc_info[0][2][3:] = [
                 lambda point: xcell_displacement(point, load_factor),
                 lambda point: ycell_displacement(point, load_factor),
                 lambda point: zcell_displacement(point, load_factor)
             ]
-            point = np.array([8.262040710449218750e+01, 8.185975646972656250e+01, 1.208771514892578125e+01])
-            print("bbb", xcell_displacement(point, load_factor))
-            # print("AAA",problem.dirichlet_bc_info[0][2][3](point))
             if step == 1/num_steps:
                 sol = solver(problem, use_petsc=True)
             else:
                 sol = solver(problem, use_petsc=True,initial_guess=sol)
-        print("sol shape", sol[0].shape)
-        print("sol[0]", sol[0][152])
         return sol
     
     @jax.custom_vjp
