@@ -8,20 +8,20 @@
 
 # Download CARDIAX or JAX-FEM 
 Follow the below commands:
-        1. Create and Activate Virtual Environment
-        mkdir virtual_environments && python3 -m venv virtual_environments/jax_fem_env && source virtual_environments/jax_fem_env/bin/activate
-        2. Install all required packages for gmsh; may not be necessary
-        sudo apt-get -y install libglu1 libxcursor-dev libxft2 libxinerama1 libfltk1.3-dev libfreetype6-dev libgl1-mesa-dev
-        3. Install JAX-FEM
-        git clone https://github.com/deepmodeling/jax-fem.git && cd jax-fem && pip install -e .
-        4. Install all package requirements
-        cd ../CARDIAX && chmod +x install.sh && ./install.sh
-        5. Install JAX-FEM
-        pip install -e .
-        6. Install JAX on GPU (optional, without this command, JAX-FEM will be using CPU)
-        pip install -U "jax[cuda12]"
-        7. Run CARDIAX unittests
-            python3 tests/benchmarks/nodal_stress/test_nodal_stress.py
+1. Create and Activate Virtual Environment
+mkdir virtual_environments && python3 -m venv virtual_environments/jax_fem_env && source virtual_environments/jax_fem_env/bin/activate
+2. Install all required packages for gmsh; may not be necessary
+sudo apt-get -y install libglu1 libxcursor-dev libxft2 libxinerama1 libfltk1.3-dev libfreetype6-dev libgl1-mesa-dev
+3. Install JAX-FEM
+git clone https://github.com/deepmodeling/jax-fem.git && cd jax-fem && pip install -e .
+4. Install all package requirements
+cd ../CARDIAX && chmod +x install.sh && ./install.sh
+5. Install JAX-FEM
+pip install -e .
+6. Install JAX on GPU (optional, without this command, JAX-FEM will be using CPU)
+pip install -U "jax[cuda12]"
+7. Run CARDIAX unittests
+python3 tests/benchmarks/nodal_stress/test_nodal_stress.py
 
 Note: commands are inspired/modified from Gabriel Peery's work (CARDIAX/.github/workflows/github-actions-demo.yml). 
 
