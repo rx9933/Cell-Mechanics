@@ -1,3 +1,37 @@
+<h1 align="center">Modeling Valve Interstitial Cells with JAX-FEM</h1>
+<p align="center">
+  <b>Directions on installing and running forward/inverse models to recover a stiffness field of activated cell microenvironments. </b></br>
+  <sub><sub>
+</p>
+
+<br />
+
+# Download CARDIAX or JAX-FEM 
+Follow the below commands:
+        name: Create and Activate Virtual Environment
+        run: mkdir virtual_environments && python3 -m venv virtual_environments/jax_fem_env && source virtual_environments/jax_fem_env/bin/activate
+      - name: Install all required packages for gmsh; may not be necessary
+        run: sudo apt-get -y install libglu1 libxcursor-dev libxft2 libxinerama1 libfltk1.3-dev libfreetype6-dev libgl1-mesa-dev
+      - name: Install JAX-FEM
+        run: git clone https://github.com/deepmodeling/jax-fem.git && cd jax-fem && pip install -e .
+      - name: Install all package requirements
+        run: cd ../CARDIAX && chmod +x install.sh && ./install.sh
+      - name: Install JAX-FEM
+        run: pip install -e .
+      - name: Install JAX on GPU (optional, without this command, JAX-FEM will be using CPU)
+        run: pip install -U "jax[cuda12]"
+      - name: Run CARDIAX unittests
+        run: python3 tests/benchmarks/nodal_stress/test_nodal_stress.py
+
+Note: commands are inspired/modified from Gabriel Peery's work (CARDIAX/.github/workflows/github-actions-demo.yml). 
+
+To ensure JAX is installed on GPU, run:
+  from jax.lib import xla_bridge
+  print(xla_bridge.get_backend().platform)
+
+This should print 'gpu' or 'cpu' based on installation process.
+  
+# Setting Up Forward Model and Inverse Models 
 In folder jax-fem (which contains problem, solver, mesh, utils, etc. codes):
 1. use fwd_* when running forward model codes
 2. use inv_* when running inverse model codes
