@@ -56,7 +56,7 @@ For the inverse model, the variable gamma (the constant for total variance) will
 
 1. fm.py represents forward model code load stepping is done within fm.py (fwd_solver.py does not contain load stepping). To increase number of load steps, adjust variable num_steps.
 2. fm_savedata.py saves the current alpha field and Jacobian of the deformation gradient (in addition to the solution displacement matrix) to the output .vtu file.
-3. im.py represents inverse model codeload stepping is done within inv_solver.py, and is dependent on mesh files (cell position/displacement) in inverse-model folder. To increase number of load steps, adjust variable XXX in inv_solver.py. 19kelem (~19,000 elements in mesh), XXX represent different mesh folders with the respective required data for each of the mesh sizes. 
+3. im.py represents inverse model codeload stepping is done within inv_solver.py, and is dependent on mesh files (cell position/displacement) in inverse-model folder. To increase number of load steps, adjust input to function "apply_load_steps" in inv_solver.py (2nd argument should be integer number of loadsteps). 19kelem (~19,000 elements in mesh), 195kelem, 371kelem, etc. represent different mesh folders with the respective required data for each of the mesh sizes. 
 
 After cloning either the JAX-FEM or CARDIAX repositories and downloading JAX-FEM, to run forward model code with a 195,000 element mesh: 
 1. in CARDIAX/demos, create a new folder forward-model.
