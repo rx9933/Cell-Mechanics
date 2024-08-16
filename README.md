@@ -3,8 +3,8 @@
   <b> Forward/inverse models to recover a stiffness field of activated cell microenvironments. </b></br>
   <sub><sub>
 </p>
-
 <br />
+    
 # Project Details
 1. Research Poster:
 
