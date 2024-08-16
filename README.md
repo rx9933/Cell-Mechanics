@@ -6,9 +6,9 @@
 <br />
     
 # Project Details
-1. Research Poster:
+1. Research Poster is 'poster.pdf.'
    
-![plot](poster.png)
+![plot](poster.pdf)
 
 3. Research Summary Document can be found in 'ase128.pdf.'
 4. Research Slides (documenting progress) are in 'Research_Slides_Cell_Mechanics_Modeling_using_JAX_FEM.pdf.'
