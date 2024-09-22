@@ -47,9 +47,10 @@ python3 tests/benchmarks/nodal_stress/test_nodal_stress.py
 Note: commands are inspired/modified from Gabriel Peery's work (CARDIAX/.github/workflows/github-actions-demo.yml). 
 
 To ensure JAX is installed on GPU, run:
+```bash
   from jax.lib import xla_bridge
   print(xla_bridge.get_backend().platform)
-
+```
 This should print 'gpu' or 'cpu' based on installation process.
   
 # Setting Up Forward Model and Inverse Models 
